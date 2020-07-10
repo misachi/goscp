@@ -1,2 +1,2 @@
 # goscp
-Go wrapper for linux secure copy
+Securely copy files from one server to another without the headaches maintaining bash script(s)
