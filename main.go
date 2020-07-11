@@ -11,11 +11,11 @@ import (
 )
 
 
-func build_args(c *cli.Context) []string {
+func BuildArgs(c *cli.Context) []string {
 	return []string{"-i", c.String("key"), c.String("source"), c.String("destination"),}
 }
 
-func get_file_path(path string) string {
+func GetFilePath(path string) string {
 	if p := strings.Index(path, ":"); p != -1 {
 		return path[p+1:]
 	} else {
@@ -23,10 +23,10 @@ func get_file_path(path string) string {
 	}
 }
 
-func check_file_exists(c *cli.Context) bool {
-	path := get_file_path(c.String("source"))
+func CheckFileExists(c *cli.Context) bool {
+	path := GetFilePath(c.String("source"))
 	i := strings.LastIndex(path, "/")
-	new_path := get_file_path(c.String("destination")) + path[i:]
+	new_path := GetFilePath(c.String("destination")) + path[i:]
 
 	_, err := os.Stat(new_path)
 	return err == nil
@@ -69,8 +69,8 @@ func main() {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			str := build_args(c)
-			if exists := check_file_exists(c); exists {
+			str := BuildArgs(c)
+			if exists := CheckFileExists(c); exists {
 				fmt.Fprint(os.Stderr, "Source file already exists in destination")
 			} else {
 				cmd := exec.Command("scp", str...)
